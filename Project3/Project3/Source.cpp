@@ -49,24 +49,51 @@ void game_logic() {
 		std::cout << "Would you like to (m)ark or (r)eveal? ";
 		std::cin >> player_choice;
 
-		if (player_choice == 'm') {
-			if (board_array[y][x] == 'B') {
-				number_of_bombs--;
-				if (number_of_bombs == 0) {
-					std::cout << "\nCongratulations! You found all the bombs!";
+		if (player_board[y + 1][x + 1] == '-') { //if the selected square has not been marked or revealed
+			if (player_choice == 'm') { //player choses to mark the box
+				if (player_board[y + 1][x + 1] == '-') {
+					if (board_array[y][x] == 'B') { //if the marked square is a bomb
+						number_of_bombs--; //decrement the amount of bombs
+						if (number_of_bombs == 0) { //if all the bombs have been marked 
+							std::cout << "\nCongratulations! You found all the bombs!";
+							game_finished = true; //end the game
+						}
+					}
+					player_board[y + 1][x + 1] = 'X';
 				}
 			}
-			player_board[y + 1][x + 1] = 'X';
-		}
-		else if (player_choice == 'r') {
-			if (board_array[y][x] == 'B') {
-				std::cout << "Sorry! You hit a bomb! Game over." << std::endl;
-				game_finished = true;
+			else if (player_choice == 'r') { //player choses to reveal the box 
+				if (player_board[y + 1][x + 1] == '-' || player_board[y + 1][x + 1] == 'X') {
+					if (board_array[y][x] == 'B') {
+						std::cout << "Sorry! You hit a bomb! Game over." << std::endl;
+						game_finished = true;
+					}
+					else {
+						player_board[y + 1][x + 1] = board_array[y][x];
+					}
+				}
+
 			}
-			else {
-				player_board[y + 1][x + 1] = board_array[y][x];
+		}
+		else if (player_board[y + 1][x + 1] == 'X') { //check if the player has marked the selected square
+			std::cout << "You have already marked this box! Would you like to reveal it? Type (r) to reveal or (m) to keep marked: ";
+			std::cin >> player_choice;
+			if (player_choice == 'r') { //if the player reveals the square
+				if (player_board[y + 1][x + 1] == '-' || player_board[y + 1][x + 1] == 'X') {
+					if (board_array[y][x] == 'B') {
+						std::cout << "Sorry! You hit a bomb! Game over." << std::endl;
+						game_finished = true;
+					}
+					else {
+						player_board[y + 1][x + 1] = board_array[y][x];
+					}
+				}
 			}
 		}
+		else if (player_board[y + 1][x + 1] != 'X' && player_board[y + 1][x + 1] != '-') { //if the selected square has been revealed
+			std::cout << "You have revealed this square! Try another square./n"; 
+		}
+
 	}
 
 }
