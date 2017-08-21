@@ -40,6 +40,8 @@ void game_logic() {
 	
 
 	while (!game_finished) {
+		system("CLS");
+
 		draw_board(player_board);
 
 		std::cout << "Which row? ";
@@ -63,7 +65,7 @@ void game_logic() {
 				}
 			}
 			else if (player_choice == 'r') { //player choses to reveal the box 
-				if (player_board[y + 1][x + 1] == '-' || player_board[y + 1][x + 1] == 'X') { //if the square has not already been revealed
+				if (player_board[y + 1][x + 1] == '-' || player_board[y + 1][x + 1] == 'X') {
 					if (board_array[y][x] == 'B') {
 						std::cout << "Sorry! You hit a bomb! Game over." << std::endl;
 						game_finished = true;
@@ -80,9 +82,9 @@ void game_logic() {
 			std::cin >> player_choice;
 			if (player_choice == 'r') { //if the player reveals the square
 				if (player_board[y + 1][x + 1] == '-' || player_board[y + 1][x + 1] == 'X') {
-					if (board_array[y][x] == 'B') { //if the square the player reveals is a bomb
-						std::cout << "Sorry! You hit a bomb! Game over." << std::endl; //show loss message 
-						game_finished = true; //end the game
+					if (board_array[y][x] == 'B') {
+						std::cout << "Sorry! You hit a bomb! Game over." << std::endl;
+						game_finished = true;
 					}
 					else {
 						player_board[y + 1][x + 1] = board_array[y][x];
